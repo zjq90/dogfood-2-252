@@ -6,26 +6,61 @@ import java.util.Set;
 
 /**
  * 订单实体类
+ * 用于存储订单基本信息，包括收货人信息、订单金额、订单状态等
  * 
  * @author shop
+ * @version 1.0
  */
 public class Forder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 订单ID，主键自增 */
     private Integer fid;
+    
+    /** 收货人姓名 */
     private String name;
+    
+    /** 收货人电话 */
     private String phone;
+    
+    /** 订单备注 */
     private String remark;
+    
+    /** 订单创建时间 */
     private Date date;
+    
+    /** 订单总金额 */
     private Double total;
+    
+    /** 邮编 */
     private String post;
+    
+    /** 收货地址 */
     private String address;
+    
+    /** 订单状态：0-待发货，1-已发货，2-已完成 */
+    private Integer status;
+    
+    /** 用户ID，关联用户表 */
     private Integer uid;
+    
+    /** 订单项集合，存储订单中的商品信息 */
+    private Set<Sorder> sorderSet;
 
+    /**
+     * 无参构造函数
+     */
     public Forder() {
     }
 
+    /**
+     * 带订单项集合的构造函数
+     * @param sorderSet 订单项集合
+     */
+    public Forder(Set<Sorder> sorderSet) {
+        this.sorderSet = sorderSet;
+    }
 
     public Integer getFid() {
         return fid;
@@ -91,6 +126,22 @@ public class Forder implements Serializable {
         this.address = address == null ? null : address.trim();
     }
 
+    /**
+     * 获取订单状态
+     * @return 订单状态：0-待发货，1-已发货，2-已完成
+     */
+    public Integer getStatus() {
+        return status;
+    }
+
+    /**
+     * 设置订单状态
+     * @param status 订单状态：0-待发货，1-已发货，2-已完成
+     */
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getUid() {
         return uid;
     }
@@ -99,7 +150,21 @@ public class Forder implements Serializable {
         this.uid = uid;
     }
 
+    /**
+     * 获取订单项集合
+     * @return 订单项集合
+     */
+    public Set<Sorder> getSorderSet() {
+        return sorderSet;
+    }
 
+    /**
+     * 设置订单项集合
+     * @param sorderSet 订单项集合
+     */
+    public void setSorderSet(Set<Sorder> sorderSet) {
+        this.sorderSet = sorderSet;
+    }
 
     @Override
     public String toString() {
@@ -112,6 +177,7 @@ public class Forder implements Serializable {
                 ", total=" + total +
                 ", post='" + post + '\'' +
                 ", address='" + address + '\'' +
+                ", status=" + status +
                 ", uid=" + uid +
                 '}';
     }

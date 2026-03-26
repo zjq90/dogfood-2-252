@@ -11,8 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 管理员服务实现类
+ * 提供管理员登录验证等业务逻辑实现
  * 
  * @author shop
+ * @version 1.0
  */
 @Service
 @Transactional
@@ -20,8 +22,18 @@ public class AdminServiceImpl implements AdminService {
 
     private static final Logger logger = LoggerFactory.getLogger(AdminServiceImpl.class);
 
+    /** 管理员数据访问层 */
+    @Autowired
     private AdminMapper adminMapper;
 
+    /**
+     * 管理员登录验证
+     * 
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录成功返回管理员对象
+     * @throws RuntimeException 用户名或密码错误时抛出异常
+     */
     @Override
     public Admin login(String username, String password) {
         logger.debug("管理员登录: {}", username);
