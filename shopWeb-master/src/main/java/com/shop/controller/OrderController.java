@@ -16,8 +16,10 @@ import java.util.List;
 
 /**
  * 后台订单管理控制器
+ * 处理后台订单管理相关请求，包括订单列表查询、订单状态更新、订单删除等
  * 
  * @author shop
+ * @date 2024-03-24
  */
 @Controller
 @RequestMapping("/order")
@@ -30,6 +32,10 @@ public class OrderController {
 
     /**
      * 订单列表
+     * 查询所有订单并按时间倒序排列
+     * 
+     * @param model 数据模型
+     * @return 订单列表页面
      */
     @GetMapping("/list")
     public String listProduct(Model model) {
@@ -42,6 +48,12 @@ public class OrderController {
 
     /**
      * 更新订单状态（发货）
+     * 将订单状态从"未发货"更新为"已发货"
+     * 
+     * @param fid 订单ID
+     * @param status 订单状态（0-未发货，1-已发货，2-已完成）
+     * @param model 数据模型
+     * @return 订单列表页面
      */
     @GetMapping("/updatestatus")
     public String updateStatus(@RequestParam("fid") Integer fid,
@@ -50,12 +62,14 @@ public class OrderController {
         logger.info("更新订单状态，订单ID: {}, 状态: {}", fid, status);
         try {
             forderService.updateStatus(fid, status);
+            logger.info("订单状态更新成功");
         } catch (Exception e) {
             logger.error("更新订单状态失败", e);
             model.addAttribute("msg", "发货失败");
             return "error";
         }
 
+        // 刷新订单列表
         List<Forder> list = forderService.selectList();
         Collections.reverse(list);
         model.addAttribute("list", list);
@@ -64,18 +78,25 @@ public class OrderController {
 
     /**
      * 删除订单
+     * 根据订单ID删除订单及其关联的订单项
+     * 
+     * @param fid 订单ID
+     * @param model 数据模型
+     * @return 订单列表页面
      */
     @GetMapping("/delete")
     public String delete(@RequestParam("fid") Integer fid, Model model) {
         logger.info("删除订单: {}", fid);
         try {
             forderService.deleteByPrimaryKey(fid);
+            logger.info("订单删除成功");
         } catch (Exception e) {
             logger.error("删除订单失败", e);
             model.addAttribute("msg", "删除失败");
             return "error";
         }
 
+        // 刷新订单列表
         List<Forder> list = forderService.selectList();
         Collections.reverse(list);
         model.addAttribute("list", list);

@@ -5,21 +5,39 @@ import java.util.Objects;
 
 /**
  * 订单项实体类
+ * 对应数据库表 zk_sorder，存储订单中的商品项信息
  * 
  * @author shop
+ * @date 2024-03-24
  */
 public class Sorder implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /** 订单项ID */
     private Integer sid;
+    
+    /** 商品名称 */
     private String name;
+    
+    /** 商品单价 */
     private Double price;
+    
+    /** 购买数量 */
     private Integer number;
+    
+    /** 所属订单ID */
     private Integer fid;
+    
+    /** 商品ID */
     private Integer pid;
+    
+    /** 关联的商品对象 */
     private Product product;
 
+    /**
+     * 默认构造方法
+     */
     public Sorder() {
     }
 
@@ -84,17 +102,14 @@ public class Sorder implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Sorder sorder = (Sorder) o;
-        return Objects.equals(sid, sorder.sid) &&
-                Objects.equals(name, sorder.name) &&
-                Objects.equals(price, sorder.price) &&
-                Objects.equals(number, sorder.number) &&
-                Objects.equals(fid, sorder.fid) &&
-                Objects.equals(product, sorder.product);
+        // 使用pid作为唯一标识，用于购物车中相同商品的判断
+        return Objects.equals(pid, sorder.pid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sid, name, price, number, fid, product);
+        // 使用pid计算hashCode
+        return Objects.hash(pid);
     }
 
     @Override
@@ -106,6 +121,7 @@ public class Sorder implements Serializable {
                 ", number=" + number +
                 ", fid=" + fid +
                 ", pid=" + pid +
+                ", product=" + product +
                 '}';
     }
 }
