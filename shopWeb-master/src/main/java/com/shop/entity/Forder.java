@@ -6,6 +6,7 @@ import java.util.Set;
 
 /**
  * 订单实体类
+ * 存储订单的基本信息，包括收货人、联系电话、收货地址、订单总金额等
  * 
  * @author shop
  */
@@ -21,11 +22,16 @@ public class Forder implements Serializable {
     private Double total;
     private String post;
     private String address;
+    private Integer status;
     private Integer uid;
+    private Set<Sorder> sorderSet;
 
     public Forder() {
     }
 
+    public Forder(Set<Sorder> sorderSet) {
+        this.sorderSet = sorderSet;
+    }
 
     public Integer getFid() {
         return fid;
@@ -91,6 +97,14 @@ public class Forder implements Serializable {
         this.address = address == null ? null : address.trim();
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getUid() {
         return uid;
     }
@@ -99,7 +113,13 @@ public class Forder implements Serializable {
         this.uid = uid;
     }
 
+    public Set<Sorder> getSorderSet() {
+        return sorderSet;
+    }
 
+    public void setSorderSet(Set<Sorder> sorderSet) {
+        this.sorderSet = sorderSet;
+    }
 
     @Override
     public String toString() {
@@ -112,6 +132,7 @@ public class Forder implements Serializable {
                 ", total=" + total +
                 ", post='" + post + '\'' +
                 ", address='" + address + '\'' +
+                ", status=" + status +
                 ", uid=" + uid +
                 '}';
     }

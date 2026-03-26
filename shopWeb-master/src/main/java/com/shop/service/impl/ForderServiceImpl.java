@@ -105,4 +105,61 @@ public class ForderServiceImpl implements ForderService {
         logger.info("订单状态更新成功: {}", fid);
         return result;
     }
+
+    @Override
+    public void addOrder(Forder forder, List<Sorder> cart) throws Exception {
+        logger.debug("创建订单: {}", forder.getName());
+
+        // 检查商品库存
+        for (Sorder sorder : cart) {
+            Product dbProduct = productMapper.selectByPrimaryKey(sorder.getPid());
+            if (dbProduct == null || dbProduct.getNumber() < sorder.getNumber()) {
+                String productName = dbProduct != null ? dbProduct.getPname() : "未知商品";
+                logger.warn("商品库存不足: {}", productName);
+                throw new RuntimeException("商品 " + productName + " 库存不足");
+            }
+        }
+
+        // 保存订单
+        int result = forderMapper.insert(forder);
+        if (result <= 0) {
+            throw new RuntimeException("订单保存失败");
+        }
+        logger.info("订单创建成功，订单ID: {}", forder.getFid());
+
+        // 保存订单项并扣减库存
+        for (Sorder sorder : cart) {
+            sorder.setFid(forder.getFid());
+            sorderMapper.insert(sorder);
+            
+            // 扣减商品库存
+            Product product = new Product();
+            product.setPid(sorder.getPid());
+            product.setNumber(-sorder.getNumber()); // 负数表示扣减
+            productMapper.updateStock(product);
+        }
+
+        logger.info("订单项保存完成，共 {} 件商品", cart.size());
+    }
+
+    @Override
+    public List<Forder> listForder() {
+        return selectList();
+    }
+
+    @Override
+    public Forder findById(Integer fid) {
+        logger.debug("根据ID查询订单: {}", fid);
+        return forderMapper.selectByPrimaryKey(fid);
+    }
+
+    @Override
+    public void deleteForder(Integer fid) {
+        try {
+            deleteByPrimaryKey(fid);
+        } catch (Exception e) {
+            logger.error("删除订单失败: {}", fid, e);
+            throw new RuntimeException("删除订单失败", e);
+        }
+    }
 }

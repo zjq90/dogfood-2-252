@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户服务实现类
+ * 实现用户相关的业务逻辑
  * 
  * @author shop
  */
@@ -20,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    @Autowired
     private UserMapper userMapper;
 
     @Override
@@ -38,5 +40,19 @@ public class UserServiceImpl implements UserService {
         }
         logger.info("用户登录成功: {}", username);
         return user;
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        logger.debug("根据用户名查询用户: {}", username);
+        return userMapper.findByUsername(username);
+    }
+
+    @Override
+    public int addUser(User user) {
+        logger.debug("添加新用户: {}", user.getUsername());
+        int result = userMapper.insertSelective(user);
+        logger.info("用户添加成功: {}", user.getUsername());
+        return result;
     }
 }

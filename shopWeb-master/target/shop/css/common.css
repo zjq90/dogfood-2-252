@@ -1,0 +1,174 @@
+/* 公共样式 */
+.clearfix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.container {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+/* 按钮样式 */
+.btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background: #ff4400;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    text-align: center;
+    transition: background 0.3s;
+}
+
+.btn:hover {
+    background: #e33e00;
+    color: #fff;
+}
+
+.btn-secondary {
+    background: #6c757d;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+
+.btn-lg {
+    padding: 12px 40px;
+    font-size: 16px;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 100%;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-control:focus {
+    border-color: #ff4400;
+}
+
+textarea.form-control {
+    height: auto;
+    padding: 10px;
+    resize: vertical;
+}
+
+/* 消息提示 */
+.msg {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+
+.msg-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.msg-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.msg-warning {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+/* 表格样式 */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+.table tr:hover td {
+    background: #fafafa;
+}
+
+/* 分页样式 */
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    color: #333;
+    border-radius: 3px;
+}
+
+.pagination a:hover {
+    background: #ff4400;
+    color: #fff;
+    border-color: #ff4400;
+}
+
+.pagination .current {
+    background: #ff4400;
+    color: #fff;
+    border-color: #ff4400;
+}
+
+/* 面包屑导航 */
+.breadcrumb {
+    padding: 10px 0;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.breadcrumb a {
+    color: #666;
+}
+
+.breadcrumb a:hover {
+    color: #ff4400;
+}
+
+.breadcrumb span {
+    margin: 0 5px;
+}

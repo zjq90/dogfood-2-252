@@ -43,13 +43,13 @@ public class UserController {
         logger.info("用户登录请求: {}", user.getUsername());
         try {
             User existUser = userService.login(user.getUsername(), user.getPassword());
-            session.setAttribute("frontuser", existUser.getUsername());
+            session.setAttribute("loginUser", existUser);
             session.removeAttribute("msg");
             logger.info("用户登录成功: {}", existUser.getUsername());
-            return "redirect:/product/frontlist";
+            return "redirect:/";
         } catch (Exception e) {
             logger.error("用户登录失败: {}", user.getUsername(), e);
-            session.setAttribute("msg", "用户或密码错误");
+            session.setAttribute("msg", "用户名或密码错误");
         }
         return "forward:/login.jsp";
     }
@@ -59,9 +59,37 @@ public class UserController {
      */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        String username = (String) session.getAttribute("frontuser");
-        logger.info("用户登出: {}", username);
-        session.removeAttribute("frontuser");
-        return "redirect:/login.jsp";
+        User loginUser = (User) session.getAttribute("loginUser");
+        if (loginUser != null) {
+            logger.info("用户登出: {}", loginUser.getUsername());
+            session.removeAttribute("loginUser");
+        }
+        // 清空购物车
+        session.removeAttribute("cart");
+        return "redirect:/";
+    }
+
+    /**
+     * 用户注册
+     */
+    @PostMapping("/register")
+    public String register(User user, HttpSession session) {
+        logger.info("用户注册请求: {}", user.getUsername());
+        try {
+            // 检查用户名是否已存在
+            User existUser = userService.findByUsername(user.getUsername());
+            if (existUser != null) {
+                session.setAttribute("msg", "用户名已存在");
+                return "forward:/register.jsp";
+            }
+            userService.addUser(user);
+            logger.info("用户注册成功: {}", user.getUsername());
+            session.setAttribute("msg", "注册成功，请登录");
+            return "redirect:/login.jsp";
+        } catch (Exception e) {
+            logger.error("用户注册失败: {}", user.getUsername(), e);
+            session.setAttribute("msg", "注册失败，请重试");
+        }
+        return "forward:/register.jsp";
     }
 }

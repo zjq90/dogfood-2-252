@@ -73,6 +73,8 @@
           <element id="library" level="project" name="Maven: org.springframework:spring-core:5.3.31" />
           <element id="library" level="project" name="Maven: org.springframework:spring-jcl:5.3.31" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot:2.7.18" />
+          <element id="library" level="project" name="Maven: com.mysql:mysql-connector-j:8.0.33" />
+          <element id="library" level="project" name="Maven: com.h2database:h2:2.1.214" />
         </element>
       </element>
       <element id="directory" name="META-INF">
