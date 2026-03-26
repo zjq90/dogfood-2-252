@@ -34,4 +34,11 @@ public interface ProductMapper {
     List<Product> frontlistHot();
 
     int subProductNumber(@Param("list") Set<Product> set);
+
+    /**
+     * 更新商品库存
+     * @param product 商品对象（包含pid和number）
+     * @return 影响行数
+     */
+    int updateStock(Product product);
 }

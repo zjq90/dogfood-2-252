@@ -30,13 +30,13 @@ public class AdminController {
     /**
      * 后台首页
      */
-    @GetMapping("/")
+    @GetMapping("/index")
     public String index(HttpSession session) {
-        if (session.getAttribute("adminusername") == null) {
-            session.setAttribute("msg", "用户还没有登录");
-            return "login";
+        if (session.getAttribute("loginAdmin") == null) {
+            session.setAttribute("msg", "管理员还没有登录");
+            return "redirect:/admin/login.jsp";
         }
-        return "index";
+        return "admin/index";
     }
 
     /**
@@ -44,7 +44,7 @@ public class AdminController {
      */
     @GetMapping("/login")
     public String toLogin() {
-        return "login";
+        return "forward:/admin/login.jsp";
     }
 
     /**
@@ -55,15 +55,15 @@ public class AdminController {
         logger.info("管理员登录请求: {}", admin.getUsername());
         try {
             Admin existAdmin = adminService.login(admin.getUsername(), admin.getPassword());
-            session.setAttribute("adminusername", existAdmin.getUsername());
+            session.setAttribute("loginAdmin", existAdmin);
             session.removeAttribute("msg");
             logger.info("管理员登录成功: {}", existAdmin.getUsername());
-            return "redirect:/admin/";
+            return "redirect:/admin/index";
         } catch (Exception e) {
             logger.error("管理员登录失败: {}", admin.getUsername(), e);
-            session.setAttribute("msg", "用户或密码错误");
+            session.setAttribute("msg", "用户名或密码错误");
         }
-        return "redirect:/admin/login";
+        return "forward:/admin/login.jsp";
     }
 
     /**
@@ -71,9 +71,11 @@ public class AdminController {
      */
     @GetMapping("/logout")
     public String logout(HttpSession session) {
-        String username = (String) session.getAttribute("adminusername");
-        logger.info("管理员登出: {}", username);
-        session.removeAttribute("adminusername");
-        return "redirect:/admin/login";
+        Admin loginAdmin = (Admin) session.getAttribute("loginAdmin");
+        if (loginAdmin != null) {
+            logger.info("管理员登出: {}", loginAdmin.getUsername());
+            session.removeAttribute("loginAdmin");
+        }
+        return "redirect:/admin/login.jsp";
     }
 }

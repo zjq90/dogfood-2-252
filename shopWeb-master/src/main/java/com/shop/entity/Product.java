@@ -16,6 +16,8 @@ public class Product implements Serializable {
     private String pname;
     private Double sprice;
     private Double cprice;
+    private String pic;
+    private String pdesc;
     private Boolean isHot;
     private Date pdate;
     private Integer number;
@@ -55,7 +57,21 @@ public class Product implements Serializable {
         this.cprice = cprice;
     }
 
+    public String getPic() {
+        return pic;
+    }
 
+    public void setPic(String pic) {
+        this.pic = pic == null ? null : pic.trim();
+    }
+
+    public String getPdesc() {
+        return pdesc;
+    }
+
+    public void setPdesc(String pdesc) {
+        this.pdesc = pdesc == null ? null : pdesc.trim();
+    }
 
     public Boolean getIsHot() {
         return isHot;
@@ -88,6 +104,8 @@ public class Product implements Serializable {
                 ", pname='" + pname + '\'' +
                 ", sprice=" + sprice +
                 ", cprice=" + cprice +
+                ", pic='" + pic + '\'' +
+                ", pdesc='" + pdesc + '\'' +
                 ", isHot=" + isHot +
                 ", pdate=" + pdate +
                 ", number=" + number +
